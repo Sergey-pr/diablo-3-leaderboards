@@ -4,7 +4,7 @@
     id="table-component"
     striped
     hover
-    :items="items.row[0]"
+    :items="items.row"
     :fields="items.column"
     ></b-table>
     <b-pagination
@@ -34,7 +34,7 @@ export default {
   },
   computed: {
     rows() {
-      this.items.row[0].length
+      this.items.row.length
     }
   }
 }

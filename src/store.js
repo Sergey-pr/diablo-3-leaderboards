@@ -19,11 +19,9 @@ export default new Vuex.Store({
         x.label = x.label.ru_RU
         return x
       })
+      console.log(payload.row)
       payload.row = payload.row.map((x) => {
-        x = x.map((y) => {
-          y[y.data.id] = y.data.number
-          return y
-        })
+        x[x.data.id] = x.data.number
         return x
       })
       state.leaderboard = payload
