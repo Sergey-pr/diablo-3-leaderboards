@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { getCookie } from '@/Cookies'
 
 let Login = axios.create({
   headers: {
@@ -8,10 +7,6 @@ let Login = axios.create({
 })
 
 let Api = axios.create({
-  headers: {
-    'Authorization': 'Bearer ' + getCookie('token'),
-    'Accept': 'application/json'
-  }
 })
 
 export { Login, Api }

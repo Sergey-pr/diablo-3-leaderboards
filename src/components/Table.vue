@@ -1,18 +1,23 @@
 <template>
-  <div>
+  <div class="overflow-auto">
+    <h1>{{ items.title.ru_RU }}</h1>
+    <h2 v-if="items.season">Сезон: {{ items.season }} </h2>
+    <h2 v-if="items.era">Эра: {{ items.era }}</h2>
     <b-table
-    id="table-component"
-    striped
-    hover
-    :items="items.row"
-    :fields="items.column"
+      id="table-component"
+      striped
+      hover
+      :items="items.row"
+      :fields="items.column"
+      :per-page="perPage"
+      :current-page="currentPage"
     ></b-table>
     <b-pagination
       v-model="currentPage"
-      aria-controls="table-component"
       size="sm"
       :total-rows="rows"
       :per-page="perPage"
+      aria-controls="table-component"
     ></b-pagination>
   </div>
 </template>
@@ -26,16 +31,15 @@ export default {
   data() {
     return {
       currentPage: 1,
-      perPage: 20
+      perPage: 20,
+      rows: 0
     }
   },
   created() {
+    this.rows = this.items.row.length
     console.log(this.items)
   },
   computed: {
-    rows() {
-      this.items.row.length
-    }
   }
 }
 </script>

@@ -22,11 +22,18 @@ export default {
     return {
     }
   },
-  created() {
-    this.$store.dispatch('GET_LEADERBOARD')
+  beforeCreate() {
+    this.$store.dispatch('GET_TOKEN')
       .then(() => {
-        console.log(this.LEADERBOARD)
+        this.$store.dispatch('GET_LEADERBOARD')
+        this.$store.dispatch('GET_CURRENT_SEASON')
+          .then(() => {
+            this.$store.dispatch('GET_LADDERS')
+          })
+        
       })
+  },
+  created() {
   }
   
 }
