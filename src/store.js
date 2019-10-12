@@ -22,6 +22,7 @@ export default new Vuex.Store({
       payload.column = payload.column.map((x) => {
         x.key = x.id
         x.label = x.label.ru_RU
+	x.sortable = true
         if (x.label) {
           return x
         } else {
@@ -29,7 +30,9 @@ export default new Vuex.Store({
         }
       })
       payload.column.push(...payload.row[0].player[0].data.map((x) => {
-        return x.id
+	x.key = x.id
+	x.sortable = true
+        return x
       }))
       payload.row = payload.row.map((x) => {
         x.data.map((y) => {
@@ -38,7 +41,10 @@ export default new Vuex.Store({
           } else if (y.number) {
             x[y.id] = y.number
           } else if (y.timestamp) {
-            x[y.id] = y.timestamp
+            x[y.id] = () => {
+		let dt = new Date(y.timestamp)
+		return [dt.getDate, dt.getMonth, dt.getYear].join('/')
+	    }
           }
         })
         x.player[0].data.map((z) => {
@@ -47,7 +53,10 @@ export default new Vuex.Store({
           } else if (z.number) {
             x[z.id] = z.number
           } else if (z.timestamp) {
-            x[z.id] = z.timestamp
+            x[z.id] = () => {
+		let dt = new Date(z.timestamp)
+		return [dt.getDate, dt.getMonth, dt.getYear].join('/')
+	    }
           }
         })
         return x
