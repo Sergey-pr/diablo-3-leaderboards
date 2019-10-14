@@ -5,6 +5,19 @@ import { Api, Login } from '@/Api'
 Vue.use(Vuex)
 
 var token = ''
+var genders = {
+  'f': 'Жен.',
+  'm': 'Муж.'
+}
+var classes = {
+  'demon hunter': 'Охотник на Демонов',
+  'monk': 'Монах',
+  'crusader': 'Крестоносец',
+  'barbarian': 'Варвар',
+  'necromancer': 'Некромант',
+  'witch doctor': 'Колдун',
+  'wizard': 'Чародей'
+}
 
 export default new Vuex.Store({
   state: {
@@ -22,7 +35,7 @@ export default new Vuex.Store({
       payload.column = payload.column.map((x) => {
         x.key = x.id
         x.label = x.label.ru_RU
-	x.sortable = true
+        x.sortable = true
         if (x.label) {
           return x
         } else {
@@ -30,8 +43,8 @@ export default new Vuex.Store({
         }
       })
       payload.column.push(...payload.row[0].player[0].data.map((x) => {
-	x.key = x.id
-	x.sortable = true
+        x.key = x.id
+        x.sortable = true
         return x
       }))
       payload.row = payload.row.map((x) => {
@@ -41,22 +54,24 @@ export default new Vuex.Store({
           } else if (y.number) {
             x[y.id] = y.number
           } else if (y.timestamp) {
-            x[y.id] = () => {
-		let dt = new Date(y.timestamp)
-		return [dt.getDate, dt.getMonth, dt.getYear].join('/')
-	    }
+            let dt = new Date(y.timestamp)
+            x[y.id] = [dt.getDate(), dt.getMonth(), dt.getFullYear()].join('.')
           }
         })
         x.player[0].data.map((z) => {
           if (z.string) {
-            x[z.id] = z.string
+            if (z.id === 'HeroGender') {
+              x[z.id] = genders[z.string]
+            } else if (z.id === 'HeroClass') {
+              x[z.id] = classes[z.string]
+            } else {
+              x[z.id] = z.string
+            }
           } else if (z.number) {
             x[z.id] = z.number
           } else if (z.timestamp) {
-            x[z.id] = () => {
-		let dt = new Date(z.timestamp)
-		return [dt.getDate, dt.getMonth, dt.getYear].join('/')
-	    }
+            let dt = new Date(z.timestamp)
+            x[z.id] = [dt.getDate(), dt.getMonth(), dt.getFullYear()].join('.')
           }
         })
         return x
